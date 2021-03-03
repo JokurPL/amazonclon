@@ -4,6 +4,7 @@ import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
 
 import "./index.css";
+import CartScreen from "./screens/CartScreen";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         </header>
 
         <main>
+          <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>

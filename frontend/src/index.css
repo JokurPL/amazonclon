@@ -97,13 +97,19 @@ a:hover {
   color: #ff8000;
 }
 
+input,
+select,
+textarea,
 button {
   padding: 1rem;
   border-radius: .5rem;
-  border: .1rem solid #a4a4a4;
-  cursor: pointer;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  border: .1rem solid #a4a4a4;
+  cursor: pointer;
 }
 
 button.primary {
@@ -114,6 +120,9 @@ button.block {
   width: 100%;
 }
 
+input:hover,
+select:hover,
+textarea:hover,
 button:hover {
   border: .1rem solid #404040;
 }
