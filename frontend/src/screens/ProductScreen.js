@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+import { BiHomeSmile } from "react-icons/bi";
+
 import { addToCart } from "../actions/cartActions";
 import { detailsProduct } from "../actions/productActions";
+
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import Rating from "../components/Rating";
@@ -52,8 +56,11 @@ const ProductScreen = (props) => {
         <MessageBox variant="error">{error}</MessageBox>
       ) : (
         <div>
-          <Link className="back" to="/">
-            Back to home
+          <Link to="/">
+            <div className="back">
+              <BiHomeSmile style={{ transform: "translate(0, .2rem)" }} /> Back
+              to home
+            </div>
           </Link>
           <div className="row top">
             <div className="col-2">
