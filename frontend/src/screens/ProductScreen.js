@@ -19,8 +19,8 @@ const ProductScreen = (props) => {
   }, [dispatch, productId]);
 
   const addToCartHandler = () => {
-    props.history.push(`/cart/${productId}?qty=${qty}`)
-  }
+    props.history.push(`/cart/${productId}?qty=${qty}`);
+  };
 
   return (
     <>
@@ -62,7 +62,7 @@ const ProductScreen = (props) => {
                 <li>
                   <div className="row">
                     <div>
-                      <b>Price</b>
+                      <b>Price:</b>
                     </div>
                     <div className="price">${product.price}</div>
                   </div>
@@ -76,7 +76,7 @@ const ProductScreen = (props) => {
                       {product.countInStock > 0 ? (
                         <span className="success">In stock</span>
                       ) : (
-                        <span className="danger">Unavailable</span>
+                        <span className="danger">Out of stock</span>
                       )}
                     </div>
                   </div>
@@ -85,7 +85,9 @@ const ProductScreen = (props) => {
                   <>
                     <li>
                       <div className="row">
-                        <div>Qty</div>
+                        <div>
+                          <b>Quantity:</b>
+                        </div>
                         <div>
                           <select
                             name={qty}
@@ -104,7 +106,12 @@ const ProductScreen = (props) => {
                       </div>
                     </li>
                     <li>
-                      <button onClick={addToCartHandler} className="primary block">Add to cart</button>
+                      <button
+                        onClick={addToCartHandler}
+                        className="primary block"
+                      >
+                        Add to cart
+                      </button>
                     </li>
                   </>
                 )}

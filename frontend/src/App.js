@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 function App() {
 
   const cart = useSelector(state => state.cart)
-  const {cartItems} = cart
+  const { cartItems } = cart
 
   return (
     <BrowserRouter>
@@ -22,7 +22,7 @@ function App() {
             </Link>
           </div>
           <div>
-            <Link to="/card">Cart {cartItems.length > 0 && (
+            <Link to="/cart">Cart {cartItems.length > 0 && (
               <span className="badge">{cartItems.length}</span>
             )}</Link>
             <Link to="/signin">Sign In</Link>
