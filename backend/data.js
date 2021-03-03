@@ -49,7 +49,7 @@ const data = {
             rating: 4.5,
             numReviews: 10,
             description: 'High quality product',
-            countInStock: 0
+            countInStock: 2
 
         },
         {
@@ -62,8 +62,7 @@ const data = {
             rating: 3.5,
             numReviews: 32110,
             description: 'High quality notebook',
-            countInStock: 0
-
+            countInStock: 3
         }
     ]
 }
