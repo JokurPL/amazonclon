@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addToCart } from "../actions/cartActions";
 import { detailsProduct } from "../actions/productActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -8,6 +9,9 @@ import Rating from "../components/Rating";
 
 const ProductScreen = (props) => {
   const [qty, setQty] = useState(1);
+
+  const [toCart, setToCart] = useState(false);
+  const [successAdd, setSuccessAdd] = useState(false);
 
   const dispatch = useDispatch();
   const productId = props.match.params.id;
@@ -18,7 +22,25 @@ const ProductScreen = (props) => {
     dispatch(detailsProduct(productId));
   }, [dispatch, productId]);
 
-  const addToCartHandler = () => {
+  useEffect(() => {
+    if (toCart) {
+      dispatch(addToCart(productId, qty));
+      setSuccessAdd(true);
+    }
+    setToCart(false);
+  }, [dispatch, toCart, productId, qty]);
+
+  useEffect(() => {
+    if (successAdd) {
+      let hideNotification = setTimeout(() => setSuccessAdd(false), 2000);
+
+      return () => {
+        clearTimeout(hideNotification);
+      };
+    }
+  }, [successAdd]);
+
+  const buyNowHandler = () => {
     props.history.push(`/cart/${productId}?qty=${qty}`);
   };
 
@@ -107,12 +129,24 @@ const ProductScreen = (props) => {
                     </li>
                     <li>
                       <button
-                        onClick={addToCartHandler}
+                        onClick={() => setToCart(true)}
                         className="primary block"
                       >
                         Add to cart
                       </button>
                     </li>
+                    <li>
+                      <button onClick={buyNowHandler} className="primary block">
+                        Buy now
+                      </button>
+                    </li>
+                    {successAdd && (
+                      <li>
+                        <MessageBox variant="success">
+                          A product has been added to the cart
+                        </MessageBox>
+                      </li>
+                    )}
                   </>
                 )}
               </div>

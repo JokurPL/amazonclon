@@ -233,6 +233,11 @@ img.large {
   border-radius: .5rem;
 }
 
+.alert-success {
+  color: #222;
+  background-color: rgba(59, 227, 118, 0.4);
+}
+
 .alert-info {
   color: #2020a0;
   background-color: #fcbabada;

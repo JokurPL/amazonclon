@@ -1,7 +1,22 @@
+import bcrypt from 'bcryptjs'
+
 const data = {
+    users: [
+        {
+            name: 'przegryw',
+            email: 'admin@example.com',
+            password: bcrypt.hashSync('admin', 8),
+            isAdmin: true,
+        },
+        {
+            name: 'John',
+            email: 'john@example.com',
+            password: bcrypt.hashSync('1234', 8),
+            isAdmin: false,
+        }
+    ],
     products: [
         {
-            _id: 1,
             name: 'XBOX USB Adapter',
             category: 'Electronics',
             image: '/images/temp.jpg',
@@ -14,20 +29,18 @@ const data = {
 
         },
         {
-            _id: 2,
             name: 'APPLE USB Adapter',
             category: 'Electronics',
             image: '/images/temp.jpg',
             price: 1200,
             brand: 'Apple',
-            rating:2,
+            rating: 2,
             numReviews: 100,
             description: 'Low quality product',
             countInStock: 0
 
         },
         {
-            _id: 3,
             name: 'XIAOMI POCO X3 NFC',
             category: 'Electronics',
             image: '/images/temp.jpg',
@@ -40,7 +53,6 @@ const data = {
 
         },
         {
-            _id: 4,
             name: 'XBOX ONE X',
             category: 'Electronics',
             image: '/images/temp.jpg',
@@ -53,7 +65,6 @@ const data = {
 
         },
         {
-            _id: 5,
             name: 'Chromebook',
             category: 'Electronics',
             image: '/images/temp.jpg',
