@@ -99,6 +99,7 @@ a:hover {
 }
 
 input, select, textarea, button {
+  border: .1rem solid #a4a4a4;
   padding: 1rem;
   border-radius: .5rem;
   -webkit-font-smoothing: antialiased;
@@ -250,4 +251,23 @@ img.large {
 
 hr {
   border: .1rem solid #203040;
+  background: #203040;
+}
+
+/* FORM */
+
+.form {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.form>div {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
+.form label {
+  margin: 1rem 0;
+  display: block;
 }

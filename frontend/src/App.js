@@ -2,10 +2,11 @@ import { BrowserRouter, Link, Route } from "react-router-dom"
 
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
+import CartScreen from "./screens/CartScreen"
+import SignInScreen from "./screens/SignInScreen"
 
-import "./index.css";
-import CartScreen from "./screens/CartScreen";
-import { useSelector } from "react-redux";
+import "./index.css"
+import { useSelector } from "react-redux"
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         </header>
 
         <main>
+          <Route path="/signin" component={SignInScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/" component={HomeScreen} exact />
