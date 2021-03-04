@@ -13,6 +13,7 @@ import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "./actions/userActions";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +69,7 @@ function App() {
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/shipping" component={ShippingAddressScreen} />
           <Route path="/payment" component={PaymentMethodScreen} />
+          <Route path="/placeorder" component={PlaceOrderScreen} />
         </main>
 
         <footer className="row center">All right reserved &copy; 2021</footer>

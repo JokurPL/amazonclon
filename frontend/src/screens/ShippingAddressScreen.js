@@ -79,7 +79,7 @@ const ShippingAddressScreen = (props) => {
           <input
             type="text"
             id="postalCode"
-            placeholder="Eneter postal code"
+            placeholder="Enter postal code"
             value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
             required
@@ -90,7 +90,7 @@ const ShippingAddressScreen = (props) => {
           <input
             type="text"
             id="country"
-            placeholder="Eneter country"
+            placeholder="Enter country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             required

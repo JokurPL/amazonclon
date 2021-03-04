@@ -326,3 +326,7 @@ hr {
   color: #ff8000;
   font-weight: bold;
 }
+
+.checkout-steps>div.active>a {
+  color: #ff8000;
+}
