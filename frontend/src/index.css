@@ -209,6 +209,12 @@ img.large {
 
 /* Loading */
 
+.order-loading {
+  display: block !important;
+  position: relative !important;
+  margin-top: 2rem;
+}
+
 .loading-div {
   display: block !important;
 }

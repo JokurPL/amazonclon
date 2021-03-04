@@ -1,49 +1,26 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createOrder } from "../actions/orderAction";
+import { detailsOrder } from "../actions/orderAction";
 import CheckoutSteps from "../components/CheckoutSteps";
-import { ORDER_CREATE_RESET } from "../constants/orderConstants";
-import LoadingBox from '../components/LoadingBox'
-import MessageBox from '../components/MessageBox'
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
 
-function PlaceOrderScreen(props) {
+function OrderScreen(props) {
+  const orderId = props.match.params.id;
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { order, loading, error } = orderDetails;
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-
-  if (!cart.paymentMethod) {
-    props.history.push("/payment");
-  }
-
-  const orderCreate = useSelector((state) => state.orderCreate)
-  const { loading, success, error, order } = orderCreate
-
-  cart.itemsPrice = cart.cartItems.reduce(
-    (a, c) =>
-      (parseFloat(a) + parseFloat(c.price) * parseFloat(c.qty)).toFixed(2),
-    0
-  );
-
-  cart.shippingPrice = cart.itemsPrice > 100 ? 0.0 : 10.0;
-  cart.taxPrice = (0.23 * cart.itemsPrice).toFixed(2);
-  cart.totalPrice =
-    parseFloat(cart.shippingPrice) +
-    parseFloat(cart.itemsPrice) +
-    parseFloat(cart.taxPrice);
-
-  const placeOrderHandler = (e) => {
-    e.preventDefault()
-    dispatch(createOrder({ ...cart, orderItems: cart.cartItems }))
-  }
 
   useEffect(() => {
-    if (success) {
-      props.history.push(`/order/${order._id}`)
-      dispatch({ type: ORDER_CREATE_RESET })
-    }
-  }, [dispatch, success, props.history, order])
+    dispatch(detailsOrder(orderId));
+  }, [dispatch, orderId]);
 
-  return (
+  return loading ? (
+    <LoadingBox />
+  ) : error ? (
+    <MessageBox variant="error">{error}</MessageBox>
+  ) : (
     <div>
       <CheckoutSteps step1 step2 step3 step4 />
       <div className="row top">
@@ -51,17 +28,30 @@ function PlaceOrderScreen(props) {
           <ul>
             <li>
               <div className="card card-body">
+                <h1>Order number: {order._id}</h1>
+              </div>
+            </li>
+            <li>
+              <div className="card card-body">
                 <h2>
                   Shipping <hr />
                 </h2>
                 <p>
-                  <strong>Name: </strong> {cart.shippingAddress.fullName} <br />
+                  <strong>Name: </strong> {order.shippingAddress.fullName}{" "}
+                  <br />
                   <strong>Address: </strong> <br />
-                  {cart.shippingAddress.address} <br />
-                  {cart.shippingAddress.city} <br />
-                  {cart.shippingAddress.postalCode} <br />
-                  {cart.shippingAddress.country}
+                  {order.shippingAddress.address} <br />
+                  {order.shippingAddress.city} <br />
+                  {order.shippingAddress.postalCode} <br />
+                  {order.shippingAddress.country}
                 </p>
+                {order.isDelivered ? (
+                  <MessageBox variant="success">
+                    Delivered at {order.deliveredAt}
+                  </MessageBox>
+                ) : (
+                  <MessageBox variant="error">Not delivered</MessageBox>
+                )}
               </div>
             </li>
             <li>
@@ -70,8 +60,15 @@ function PlaceOrderScreen(props) {
                   Payment <hr />
                 </h2>
                 <p>
-                  <strong>Method: </strong> {cart.paymentMethod}
+                  <strong>Method: </strong> {order.paymentMethod}
                 </p>
+                {order.isPaid ? (
+                  <MessageBox variant="success">
+                    Paid at {order.paidAt}
+                  </MessageBox>
+                ) : (
+                  <MessageBox variant="error">Not paid</MessageBox>
+                )}
               </div>
             </li>
             <li>
@@ -80,7 +77,7 @@ function PlaceOrderScreen(props) {
                   Order items <hr />
                 </h2>
                 <ul>
-                  {cart.cartItems.map((item) => (
+                  {order.orderItems.map((item) => (
                     <li key={item.product}>
                       <div className="row">
                         <div>
@@ -118,19 +115,19 @@ function PlaceOrderScreen(props) {
               <li>
                 <div className="row">
                   <div>Items</div>
-                  <div>${cart.itemsPrice}</div>
+                  <div>${order.itemsPrice}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Shipping</div>
-                  <div>${cart.shippingPrice}</div>
+                  <div>${order.shippingPrice}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Tax</div>
-                  <div>${cart.taxPrice}</div>
+                  <div>${order.taxPrice}</div>
                 </div>
               </li>
               <li>
@@ -139,28 +136,15 @@ function PlaceOrderScreen(props) {
                   <div>
                     <b>Total</b>
                   </div>
-                  <div>${cart.totalPrice.toFixed(2)}</div>
+                  <div>${order.totalPrice.toFixed(2)}</div>
                 </div>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  disabled={cart.cartItems.length === 0}
-                  className="primary"
-                  style={{ width: "100%" }}
-                  onClick={placeOrderHandler}
-                >
-                  Place order
-                </button>
-                {loading && <LoadingBox class="order-loading" />}
-                {error && (<div><br /><MessageBox variant="error">{error}</MessageBox></div>)}
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
-export default PlaceOrderScreen;
+export default OrderScreen;

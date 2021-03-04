@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signout } from "./actions/userActions";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import OrderScreen from "./screens/OrderScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ function App() {
             {userInfo ? (
               <div className="dropdown">
                 <Link to="#">
-                  {userInfo.name} <BsCaretDown />{" "}
+                  {userInfo.name} <BsCaretDown style={{ transform: 'translate(0, .4rem)' }} />{" "}
                 </Link>
                 <ul className="dropdown-content">
                   <Link to="#signout" onClick={singOutHandler}>
@@ -56,8 +57,8 @@ function App() {
                 </ul>
               </div>
             ) : (
-                <Link to="/signin">Sign In</Link>
-              )}
+              <Link to="/signin">Sign In</Link>
+            )}
           </div>
         </header>
 
@@ -70,6 +71,7 @@ function App() {
           <Route path="/shipping" component={ShippingAddressScreen} />
           <Route path="/payment" component={PaymentMethodScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
+          <Route path="/order/:id" component={OrderScreen} />
         </main>
 
         <footer className="row center">All right reserved &copy; 2021</footer>
