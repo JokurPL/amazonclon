@@ -32,7 +32,7 @@ function SignInScreen(props) {
 
   return (
     <div>
-      <form className="form" onSubmit={submitHandler}>
+      <form className="form" onSubmit={submitHandler} autoComplete="true">
         <div>
           <h1>
             Sign in <hr />
@@ -54,6 +54,7 @@ function SignInScreen(props) {
         <div>
           <label htmlFor="password">Password</label>
           <input
+            autoComplete="true"
             type="password"
             placeholder="Enter password"
             id="password"

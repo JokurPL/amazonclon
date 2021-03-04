@@ -35,7 +35,7 @@ const ShippingAddressScreen = (props) => {
   return (
     <div>
       <CheckoutSteps step1 step2 />
-      <form className="form" onSubmit={submitHandler} autoComplete>
+      <form className="form" onSubmit={submitHandler} autoComplete="true">
         <div>
           <h1>
             Shipping address <hr />

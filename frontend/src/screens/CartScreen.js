@@ -39,59 +39,59 @@ function CartScreen(props) {
             Cart is empty. <Link to="/">Go shopping</Link>
           </MessageBox>
         ) : (
-          <ul>
-            {cartItems.map((item) => (
-              <li key={item.product}>
-                <div className="row">
-                  <div>
-                    <img src={item.image} alt={item.name} className="small" />
+            <ul>
+              {cartItems.map((item) => (
+                <li key={item.product}>
+                  <div className="row">
+                    <div>
+                      <img src={item.image} alt={item.name} className="small" />
+                    </div>
+                    <div className="min-30">
+                      <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    </div>
+                    <div>
+                      <select
+                        value={item.qty}
+                        onChange={(e) =>
+                          dispatch(
+                            addToCart(item.product, Number(e.target.value))
+                          )
+                        }
+                      >
+                        {[...Array(item.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>${item.price}</div>
+                    <div>
+                      <button
+                        className="delete"
+                        type="button"
+                        onClick={() => removeFromCartHandler(item.product)}
+                      >
+                        <MdDeleteForever
+                          style={{
+                            fontSize: "2rem",
+                            color: "rgb(207, 74, 74)",
+                          }}
+                        />
+                      </button>
+                    </div>
                   </div>
-                  <div className="min-30">
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
-                  </div>
-                  <div>
-                    <select
-                      value={item.qty}
-                      onChange={(e) =>
-                        dispatch(
-                          addToCart(item.product, Number(e.target.value))
-                        )
-                      }
-                    >
-                      {[...Array(item.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>${item.price}</div>
-                  <div>
-                    <button
-                      className="delete"
-                      type="button"
-                      onClick={() => removeFromCartHandler(item.product)}
-                    >
-                      <MdDeleteForever
-                        style={{
-                          fontSize: "2rem",
-                          color: "rgb(207, 74, 74)",
-                        }}
-                      />
-                    </button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+                </li>
+              ))}
+            </ul>
+          )}
       </div>
       <div className="col-1">
         <div className="card card-body">
           <ul>
             <li>
               <h2>
-                Subtotal ({cartItems.reduce((a, c) => a + c.qty, 0)} items) : $
+                Subtotal ({cartItems.reduce((a, c) => parseInt(a) + parseInt(c.qty), 0)} items) : $
                 {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
               </h2>
             </li>

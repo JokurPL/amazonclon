@@ -12,6 +12,7 @@ import ShippingAddressScreen from "./screens/ShippingAddressScreen";
 import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "./actions/userActions";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,8 +55,8 @@ function App() {
                 </ul>
               </div>
             ) : (
-              <Link to="/signin">Sign In</Link>
-            )}
+                <Link to="/signin">Sign In</Link>
+              )}
           </div>
         </header>
 
@@ -66,6 +67,7 @@ function App() {
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/shipping" component={ShippingAddressScreen} />
+          <Route path="/payment" component={PaymentMethodScreen} />
         </main>
 
         <footer className="row center">All right reserved &copy; 2021</footer>
