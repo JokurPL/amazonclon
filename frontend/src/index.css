@@ -209,6 +209,10 @@ img.large {
 
 /* Loading */
 
+.loading-div {
+  display: block !important;
+}
+
 .loading {
   position: absolute;
   left: 50%;
@@ -307,4 +311,19 @@ hr {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+/* Checkout steps */
+
+.checkout-steps>div {
+  border-top: .3rem solid #c0c0c0;
+  color: #c0c0c0;
+  flex: 1;
+  padding: 1rem;
+}
+
+.checkout-steps>div.active {
+  border-top-color: #ff8000;
+  color: #ff8000;
+  font-weight: bold;
 }

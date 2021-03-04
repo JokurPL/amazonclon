@@ -3,7 +3,9 @@ import { ImSpinner8 } from 'react-icons/im'
 const LoadingBox = () => {
     return (
         <>
-            <ImSpinner8 className="loading" />
+            <div className="loading-div">
+                <ImSpinner8 className="loading" />
+            </div>
         </>
     )
 }
