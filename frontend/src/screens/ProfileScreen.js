@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { detailsUser } from "../actions/userActions";
-
-import {} from "bcryptjs";
+import { detailsUser, updateUserProfile } from "../actions/userActions";
 
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 
 function ProfileScreen() {
-  const dispatch = useDispatch();
+  const [isMatchPassword, setIsMatchPassword] = useState(true);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const userSignIn = useSelector((state) => state.userSignIn);
   const { userInfo } = userSignIn;
@@ -16,11 +20,40 @@ function ProfileScreen() {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
-  const submitHandler = (e) => {};
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const {
+    success: successUpdate,
+    error: errorUpdate,
+    loading: loadingUpdate,
+  } = userUpdateProfile;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(detailsUser(userInfo._id));
-  }, [dispatch, userInfo._id]);
+    if (password === confirmPassword) {
+      setIsMatchPassword(true);
+    } else {
+      setIsMatchPassword(false);
+    }
+  }, [confirmPassword, password]);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch({ type: USER_UPDATE_PROFILE_RESET });
+      dispatch(detailsUser(userInfo._id));
+    } else {
+      setName(user.name);
+      setEmail(user.email);
+    }
+  }, [dispatch, userInfo._id, user]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    if (password === confirmPassword) {
+      dispatch(updateUserProfile({ userId: user._id, name, email, password }));
+    }
+  };
 
   return (
     <div>
@@ -36,13 +69,24 @@ function ProfileScreen() {
           <MessageBox variant="error">{error}</MessageBox>
         ) : (
           <>
+            {loadingUpdate && <LoadingBox />}
+            {errorUpdate && (
+              <MessageBox variant="error">{errorUpdate}</MessageBox>
+            )}
+            {successUpdate && (
+              <MessageBox variant="success">
+                Profile updated successfully
+              </MessageBox>
+            )}
             <div>
               <label htmlFor="name">Name</label>
               <input
                 name="name"
                 placeholder="Enter name"
-                value={user.name}
+                value={name}
                 type="text"
+                onChange={(e) => setName(e.target.value)}
+                required
               />
             </div>
             <div>
@@ -50,8 +94,10 @@ function ProfileScreen() {
               <input
                 name="email"
                 placeholder="Enter e-mail"
-                value={user.email}
+                value={email}
                 type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div>
@@ -59,9 +105,10 @@ function ProfileScreen() {
               <input
                 name="password"
                 placeholder="Enter password"
-                value={user.password}
+                value={password}
                 type="password"
                 autoComplete="true"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div>
@@ -71,7 +118,14 @@ function ProfileScreen() {
                 placeholder="Enter confirm password"
                 type="password"
                 autoComplete="true"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
+              {!isMatchPassword && (
+                <p style={{ color: "red", marginTop: "1rem" }}>
+                  Passwords are not matched
+                </p>
+              )}
             </div>
             <div>
               <label />

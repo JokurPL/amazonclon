@@ -100,7 +100,7 @@ function RegisterScreen(props) {
           />
         </div>
         {!isEqualPassword && (
-          <div style={{ color: "red" }}>Passwords don't match</div>
+          <div style={{ color: "red" }}>Passwords are not matched</div>
         )}
         <div>
           <label />
