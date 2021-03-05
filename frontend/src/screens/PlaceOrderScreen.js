@@ -32,7 +32,6 @@ function PlaceOrderScreen(props) {
     parseFloat(cart.taxPrice);
 
   const placeOrderHandler = (e) => {
-    e.preventDefault()
     dispatch(createOrder({ ...cart, orderItems: cart.cartItems }))
   }
 

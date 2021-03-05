@@ -212,7 +212,8 @@ img.large {
 .order-loading {
   display: block !important;
   position: relative !important;
-  margin-top: 2rem;
+  margin-top: -5rem;
+  padding: 6rem;
 }
 
 .loading-div {
@@ -335,4 +336,9 @@ hr {
 
 .checkout-steps>div.active>a {
   color: #ff8000;
+  transition: color linear .2s;
+}
+
+.checkout-steps>div.active>a:hover {
+  color: #cf6800;
 }
