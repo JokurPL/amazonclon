@@ -52,7 +52,7 @@ function App() {
               <div className="dropdown">
                 <Link to="#">
                   {userInfo.name}{" "}
-                  <BsCaretDown style={{ transform: "translate(0, .4rem)" }} />{" "}
+                  <BsCaretDown style={{ transform: "translate(0, .4rem)" }} />
                 </Link>
                 <ul className="dropdown-content">
                   <li>
@@ -70,6 +70,28 @@ function App() {
               </div>
             ) : (
               <Link to="/signin">Sign In</Link>
+            )}
+            {userInfo && userInfo.isAdmin && (
+              <div className="dropdown">
+                <Link to="#admin">
+                  Admin{" "}
+                  <BsCaretDown style={{ transform: "translate(0, .4rem)" }} />
+                </Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to="/productslist">Products</Link>
+                  </li>
+                  <li>
+                    <Link to="/orderlist">Orders</Link>
+                  </li>
+                  <li>
+                    <Link to="/userlist">Users</Link>
+                  </li>
+                </ul>
+              </div>
             )}
           </div>
         </header>
