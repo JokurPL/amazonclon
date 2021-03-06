@@ -99,7 +99,7 @@ function OrderScreen(props) {
                 </p>
                 {order.isPaid ? (
                   <MessageBox variant="success">
-                    Paid at {order.paidAt}
+                    Paid at {new Date(order.paidAt).toLocaleString()}
                   </MessageBox>
                 ) : (
                   <MessageBox variant="error">Not paid</MessageBox>
