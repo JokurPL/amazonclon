@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { MdRemoveCircleOutline } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { listUsers } from "../actions/userActions";
+import { deleteUser, listUsers } from "../actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
@@ -12,25 +12,40 @@ function UserListScreen() {
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
 
+  const userDelete = useSelector((state) => state.userDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = userDelete;
+
   useEffect(() => {
     dispatch(listUsers());
-  }, [dispatch]);
+  }, [dispatch, successDelete]);
 
-  const deleteHandler = (user) => {};
+  const deleteHandler = (user) => {
+    if (window.confirm("Are you sure?")) {
+      dispatch(deleteUser(user._id));
+    }
+  };
+  const editHandler = (user) => {};
 
   return (
     <div>
       <h1>
         Orders <hr />
       </h1>
-      {/* {loadingDelete && <LoadingBox class="user-loading" />} */}
-      {/* {errorDelete && <MessageBox variant="error">{errorDelete}</MessageBox>} */}
+      {loadingDelete && <LoadingBox class="user-loading" />}
+      {errorDelete && <MessageBox variant="error">{errorDelete}</MessageBox>}
+      {successDelete && (
+        <MessageBox variant="success">User deleted success</MessageBox>
+      )}
       {loading ? (
         <LoadingBox />
       ) : error ? (
         <MessageBox variant="error">{error}</MessageBox>
       ) : (
-        <table className="table">
+        <table style={{ marginTop: ".5rem" }} className="table">
           <thead>
             <tr>
               <th>User ID</th>
@@ -72,7 +87,7 @@ function UserListScreen() {
                 </td>
                 <td>{new Date(user.createdAt).toLocaleString()}</td>
                 <td>
-                  <button type="button" onClick={() => deleteHandler(user)}>
+                  <button type="button" onClick={() => editHandler(user)}>
                     Edit
                   </button>
                   <button type="button" onClick={() => deleteHandler(user)}>
