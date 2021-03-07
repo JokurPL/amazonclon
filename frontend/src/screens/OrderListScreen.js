@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { listOrders } from "../actions/orderAction";
+import { deleteOrder, listOrders } from "../actions/orderAction";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { ORDER_DELETE_RESET } from "../constants/orderConstants";
 
 function OrderListScreen(props) {
   const dispatch = useDispatch();
@@ -11,17 +12,27 @@ function OrderListScreen(props) {
   const orderList = useSelector((state) => state.orderList);
   const { error, loading, orders } = orderList;
 
-  useEffect(() => {
-    dispatch(listOrders());
-  }, [dispatch]);
+  const orderDelete = useSelector((state) => state.orderDelete)
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = orderDelete
 
-  const deleteHandler = () => {};
+  useEffect(() => {
+    dispatch({ type: ORDER_DELETE_RESET })
+    dispatch(listOrders());
+  }, [dispatch, successDelete]);
+
+  const deleteHandler = (order) => {
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteOrder(order._id))
+    }
+  };
 
   return (
     <div>
       <h1>
         Orders <hr />
       </h1>
+      {loadingDelete && <LoadingBox class="order-loading" />}
+      {errorDelete && <MessageBox variant="error">{errorDelete}</MessageBox>}
       {loading ? (
         <LoadingBox />
       ) : error ? (

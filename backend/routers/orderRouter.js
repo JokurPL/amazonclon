@@ -63,7 +63,18 @@ orderRouter.put('/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
         res.send({ message: 'Order paid', order: updatedOrder })
     }
     else {
-        res.status(404).send({ error: 'Order not found' })
+        res.status(404).send({ message: 'Order not found' })
+    }
+}))
+
+orderRouter.delete('/:id', isAuth, isAdmin, expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id)
+    if (order) {
+        const deleteOrder = await order.delete()
+
+        res.send({ message: 'Order deleted', order: deleteOrder })
+    } else {
+        res.status(404).send({ message: 'Order not found' })
     }
 }))
 
