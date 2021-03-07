@@ -50,7 +50,7 @@ const Rating = (props) => {
           <BsStar />
         )}
       </span>
-      <span style={{ color: "#000" }}>{numReviews} reviews</span>
+      <span style={{ color: "#000" }}> {numReviews} reviews</span>
     </div>
   );
 };

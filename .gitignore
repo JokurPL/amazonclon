@@ -27,3 +27,4 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 .env
 frontend/.env
+/uploads/*.jpg

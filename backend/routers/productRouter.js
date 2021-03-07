@@ -1,3 +1,4 @@
+import e from "express";
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import data from "../data.js";
@@ -85,6 +86,17 @@ productRouter.put("/:id", isAuth, isAdmin, expressAsyncHandler(async (req, res) 
     res.send({ message: 'Product updated', product: updatedProduct })
   }
   else {
+    res.status(404).send({ message: 'Product not found' })
+  }
+
+}))
+
+productRouter.delete('/:id', isAuth, isAdmin, expressAsyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id)
+  if (product) {
+    const { data } = await product.delete()
+    res.send({ message: 'Product deleted' })
+  } else {
     res.status(404).send({ message: 'Product not found' })
   }
 

@@ -1,5 +1,4 @@
 import { BrowserRouter, Link, Route } from "react-router-dom";
-
 import { BsCaretDown } from "react-icons/bs";
 
 import HomeScreen from "./screens/HomeScreen";
@@ -21,6 +20,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
+import OrderListScreen from "./screens/OrderListScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -72,7 +72,7 @@ function App() {
                 </ul>
               </div>
             ) : (
-              <Link to="/signin">Sign In</Link>
+              <Link to={`/signin`}>Sign In</Link>
             )}
             {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
@@ -88,7 +88,7 @@ function App() {
                     <Link to="/productslist">Products</Link>
                   </li>
                   <li>
-                    <Link to="/orderlist">Orders</Link>
+                    <Link to="/orderslist">Orders</Link>
                   </li>
                   <li>
                     <Link to="/userlist">Users</Link>
@@ -118,6 +118,7 @@ function App() {
 
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistory" component={OrderHistoryScreen} />
+          <AdminRoute path="/orderslist" component={OrderListScreen} />
 
           <PrivateRoute path="/profile" component={ProfileScreen} />
           <AdminRoute path="/productslist" component={ProductListScreen} />

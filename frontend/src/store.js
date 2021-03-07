@@ -2,8 +2,8 @@ import { applyMiddleware, createStore, compose, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 
 import { cartReducer } from './reducers/cartReducer'
-import { orderCreateReducer, orderDetailsReducer, orderMineListReducer, orderPayReducer } from './reducers/orderReducer'
-import { productCreateReducer, productDetailsReducer, productListReducer, productUpdateReducer } from "./reducers/productReducer"
+import { orderCreateReducer, orderDetailsReducer, orderListReducer, orderMineListReducer, orderPayReducer } from './reducers/orderReducer'
+import { productCreateReducer, productDeleteReducer, productDetailsReducer, productListReducer, productUpdateReducer } from "./reducers/productReducer"
 import { signInReducer, userDetailsReducer, userRegisterReducer, userUpdateProfileReducer } from './reducers/userReducer'
 
 const initialState = {
@@ -19,17 +19,23 @@ const initialState = {
 const reducer = combineReducers({
     productList: productListReducer,
     productDetails: productDetailsReducer,
+    productCreate: productCreateReducer,
+    productUpdate: productUpdateReducer,
+    productDelete: productDeleteReducer,
+
     cart: cartReducer,
+
     userSignIn: signInReducer,
     userRegister: userRegisterReducer,
+    userDetails: userDetailsReducer,
+    userUpdateProfile: userUpdateProfileReducer,
+
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
     orderMineList: orderMineListReducer,
-    userDetails: userDetailsReducer,
-    userUpdateProfile: userUpdateProfileReducer,
-    productCreate: productCreateReducer,
-    productUpdate: productUpdateReducer,
+    orderList: orderListReducer,
+
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

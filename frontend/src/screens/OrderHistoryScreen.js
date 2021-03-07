@@ -19,7 +19,7 @@ function OrderHistoryScreen(props) {
 
   return (
     <div>
-      <h1>Order history</h1>
+      <h1>Order history <hr /></h1>
       {loading ? (
         <LoadingBox />
       ) : error ? (
@@ -41,7 +41,7 @@ function OrderHistoryScreen(props) {
                 <td><Link to={`/order/${order._id}`}>{order._id}</Link></td>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>${order.totalPrice}</td>
-                <td>{order.isPaid ? order.paidAt.substring(0, 10) : "No"}</td>
+                <td>{order.isPaid ? new Date(order.paidAt).toLocaleString() : "No"}</td>
                 <td>
                   {order.isDelivered
                     ? order.deliveredAt.substring(0, 10)

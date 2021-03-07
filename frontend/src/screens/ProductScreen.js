@@ -3,13 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { BiHomeSmile } from "react-icons/bi";
+import { BsPencil } from "react-icons/bs";
+import { AiOutlineDelete } from "react-icons/ai";
 
 import { addToCart } from "../actions/cartActions";
-import { detailsProduct } from "../actions/productActions";
+import { deleteProduct, detailsProduct } from "../actions/productActions";
 
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import Rating from "../components/Rating";
+import { PRODUCT_DELETE_RESET } from "../constants/productConstants";
 
 const ProductScreen = (props) => {
   const [qty, setQty] = useState(1);
@@ -22,9 +25,36 @@ const ProductScreen = (props) => {
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
+  const userSignIn = useSelector((state) => state.userSignIn);
+  const { userInfo } = userSignIn;
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const productDelete = useSelector((state) => state.productDelete);
+  const {
+    loading: loadingDelete,
+    success: successDelete,
+    error: errorDelete,
+  } = productDelete;
+
+  useEffect(() => {
+    if (userInfo) {
+      if (userInfo.isAdmin) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    } else {
+      setIsAdmin(false);
+    }
+  }, [userInfo]);
+
   useEffect(() => {
     dispatch(detailsProduct(productId));
-  }, [dispatch, productId]);
+    if (successDelete) {
+      dispatch({ type: PRODUCT_DELETE_RESET });
+    }
+  }, [dispatch, productId, successDelete]);
 
   useEffect(() => {
     if (toCart) {
@@ -48,6 +78,12 @@ const ProductScreen = (props) => {
     props.history.push(`/cart/${productId}?qty=${qty}`);
   };
 
+  const deleteHandler = () => {
+    if (window.confirm("Are you sure to delete?")) {
+      dispatch(deleteProduct(productId));
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -56,12 +92,32 @@ const ProductScreen = (props) => {
         <MessageBox variant="error">{error}</MessageBox>
       ) : (
         <div>
-          <Link to="/">
-            <div className="back">
-              <BiHomeSmile style={{ transform: "translate(0, .2rem)" }} /> Back
-              to home
-            </div>
-          </Link>
+          <div style={{ display: "flex" }}>
+            <Link to="/">
+              <div className="back">
+                <BiHomeSmile style={{ transform: "translate(0, .2rem)" }} />{" "}
+                Back to home
+              </div>
+            </Link>
+            {isAdmin && (
+              <>
+                <Link to={`/product/${product._id}/edit`}>
+                  <div className="back" style={{ marginLeft: ".3rem" }}>
+                    <BsPencil style={{ transform: "translate(0, .2rem)" }} />{" "}
+                    Edit
+                  </div>
+                </Link>
+                <Link onClick={deleteHandler}>
+                  <div className="back" style={{ marginLeft: ".3rem" }}>
+                    <AiOutlineDelete
+                      style={{ transform: "translate(0, .2rem)" }}
+                    />
+                    Delete
+                  </div>
+                </Link>
+              </>
+            )}
+          </div>
           <div className="row top">
             <div className="col-2">
               <img className="large" src={product.image} alt={product.name} />
