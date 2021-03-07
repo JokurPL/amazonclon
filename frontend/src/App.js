@@ -20,6 +20,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import ProductListScreen from "./screens/ProductListScreen";
+import ProductEditScreen from "./screens/ProductEditScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -101,15 +102,26 @@ function App() {
         <main>
           <Route path="/signin" component={SignInScreen} />
           <Route path="/register" component={RegisterScreen} />
+
           <Route path="/cart/:id?" component={CartScreen} />
+
           <Route path="/product/:id" component={ProductScreen} exact />
+          <AdminRoute
+            path="/product/:id/edit"
+            component={ProductEditScreen}
+            exact
+          />
           <Route path="/shipping" component={ShippingAddressScreen} />
+
           <Route path="/payment" component={PaymentMethodScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
+
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistory" component={OrderHistoryScreen} />
+
           <PrivateRoute path="/profile" component={ProfileScreen} />
           <AdminRoute path="/productslist" component={ProductListScreen} />
+
           <Route path="/" component={HomeScreen} exact />
         </main>
 

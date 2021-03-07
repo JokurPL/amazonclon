@@ -14,6 +14,9 @@ function ProfileScreen() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [successUpdate, setSuccessUpdate] = useState(false)
+  const [errorUpdate, setErrorUpdate] = useState(false)
+
   const userSignIn = useSelector((state) => state.userSignIn);
   const { userInfo } = userSignIn;
 
@@ -22,8 +25,8 @@ function ProfileScreen() {
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const {
-    success: successUpdate,
-    error: errorUpdate,
+    success: successUpdateProfile,
+    error: errorUpdateProfile,
     loading: loadingUpdate,
   } = userUpdateProfile;
 
@@ -39,13 +42,42 @@ function ProfileScreen() {
 
   useEffect(() => {
     if (!user) {
-      dispatch({ type: USER_UPDATE_PROFILE_RESET });
       dispatch(detailsUser(userInfo._id));
+      dispatch({ type: USER_UPDATE_PROFILE_RESET });
     } else {
+      if (user.name !== userInfo.name) {
+        dispatch(detailsUser(userInfo._id));
+      }
       setName(user.name);
       setEmail(user.email);
     }
-  }, [dispatch, userInfo._id, user]);
+  }, [dispatch, userInfo._id, user, userInfo.name]);
+
+  useEffect(() => {
+    if (successUpdateProfile) {
+      setSuccessUpdate(true);
+      dispatch({ type: USER_UPDATE_PROFILE_RESET });
+    }
+    if (errorUpdateProfile) {
+      setErrorUpdate(true);
+    }
+  }, [successUpdateProfile, dispatch, errorUpdateProfile])
+
+  useEffect(() => {
+    let hideSuccessNotification = setTimeout(() => setSuccessUpdate(false), 3000);
+
+    return () => {
+      clearTimeout(hideSuccessNotification);
+    };
+  }, [successUpdate])
+
+  useEffect(() => {
+    let hideErrorNotification = setTimeout(() => setErrorUpdate(false), 3000);
+
+    return () => {
+      clearTimeout(hideErrorNotification);
+    };
+  }, [errorUpdate])
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -71,7 +103,7 @@ function ProfileScreen() {
           <>
             {loadingUpdate && <LoadingBox />}
             {errorUpdate && (
-              <MessageBox variant="error">{errorUpdate}</MessageBox>
+              <MessageBox variant="error">{errorUpdateProfile}</MessageBox>
             )}
             {successUpdate && (
               <MessageBox variant="success">

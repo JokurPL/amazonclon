@@ -82,7 +82,7 @@ function OrderScreen(props) {
                 </p>
                 {order.isDelivered ? (
                   <MessageBox variant="success">
-                    Delivered at {order.deliveredAt}
+                    Delivered at {new Date(order.deliveredAt).toLocaleString()}
                   </MessageBox>
                 ) : (
                   <MessageBox variant="error">Not delivered</MessageBox>
