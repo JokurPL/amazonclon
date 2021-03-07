@@ -21,6 +21,7 @@ import AdminRoute from "./components/AdminRoute";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
+import UserListScreen from "./screens/UserListScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -91,7 +92,7 @@ function App() {
                     <Link to="/orderslist">Orders</Link>
                   </li>
                   <li>
-                    <Link to="/userlist">Users</Link>
+                    <Link to="/userslist">Users</Link>
                   </li>
                 </ul>
               </div>
@@ -106,6 +107,7 @@ function App() {
           <Route path="/cart/:id?" component={CartScreen} />
 
           <Route path="/product/:id" component={ProductScreen} exact />
+          <AdminRoute path="/productslist" component={ProductListScreen} />
           <AdminRoute
             path="/product/:id/edit"
             component={ProductEditScreen}
@@ -121,7 +123,7 @@ function App() {
           <AdminRoute path="/orderslist" component={OrderListScreen} />
 
           <PrivateRoute path="/profile" component={ProfileScreen} />
-          <AdminRoute path="/productslist" component={ProductListScreen} />
+          <AdminRoute path="/userslist" component={UserListScreen} />
 
           <Route path="/" component={HomeScreen} exact />
         </main>

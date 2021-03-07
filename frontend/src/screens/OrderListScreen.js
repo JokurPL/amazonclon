@@ -61,13 +61,13 @@ function OrderListScreen(props) {
                 <td>${order.totalPrice}</td>
                 <td>
                   {order.isPaid
-                    ? new Date(order.paidAt).toLocaleString()
-                    : "No"}
+                    ? (<span className="success">{new Date(order.paidAt).toLocaleString()}</span>)
+                    : (<span className="danger">No</span>)}
                 </td>
                 <td>
                   {order.isDelivered
-                    ? order.deliveredAt.substring(0, 10)
-                    : "No"}
+                    ? (<span className="success">{new Date(order.deliveredAt).toLocaleString()}</span>)
+                    : (<span className="danger">No</span>)}
                 </td>
                 <td>
                   <button type="button" onClick={() => deleteHandler(order)}>
