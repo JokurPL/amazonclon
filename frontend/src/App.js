@@ -22,6 +22,7 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
+import UserEditScreen from "./screens/UserEditScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -124,6 +125,7 @@ function App() {
 
           <PrivateRoute path="/profile" component={ProfileScreen} />
           <AdminRoute path="/userslist" component={UserListScreen} />
+          <AdminRoute path="/user/:id/edit" component={UserEditScreen} />
 
           <Route path="/" component={HomeScreen} exact />
         </main>

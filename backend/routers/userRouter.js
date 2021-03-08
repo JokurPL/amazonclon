@@ -77,14 +77,17 @@ userRouter.delete(
   })
 );
 
-userRouter.delete(
+userRouter.get(
   "/:id",
   isAuth,
-  isAdmin,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (user) {
-      res.send(user);
+      if (user._id != req.user._id && !req.user.isAdmin) {
+        res.status(401).send({ message: "Unauthorized request" });
+      } else {
+        res.send(user);
+      }
     } else {
       res.status(404).send({ message: "User not found" });
     }
@@ -126,6 +129,26 @@ userRouter.get(
     const users = await User.find({});
     if (users) {
       res.send(users);
+    } else {
+      res.status(404).send({ message: "Users not found" });
+    }
+  })
+);
+
+userRouter.put(
+  "/:id",
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.isSeller = req.body.isSeller;
+      user.isAdmin = req.body.isAdmin;
+
+      const updatedUser = await user.save();
+      res.send({ message: "User updated", user: updatedUser });
     } else {
       res.status(404).send({ message: "Users not found" });
     }

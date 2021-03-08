@@ -375,3 +375,7 @@ hr {
 .table button {
   margin: 0 .2rem;
 }
+
+td>button {
+  margin: .2rem !important;
+}
