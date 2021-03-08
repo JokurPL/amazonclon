@@ -2,17 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import LoadingBox from "../components/LoadingBox";
 
-//   await axios
-//     .get("/api/devices/lamp")
-//     .then((response) => {
-//       setIsLoaded(true);
-//       setState(response.data.state);
-//     })
-//     .catch((error) => {
-//       setIsLoaded(true);
-//       setError(error);
-//     });
-
 function MqttScreen() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,13 +10,20 @@ function MqttScreen() {
   const [isStatus, setStatus] = useState(true);
   setTimeout(() => {
     setStatus(!isStatus);
-  }, 3000);
+  }, 1000);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("/api/devices/lamp");
-      setState(response.data.state);
-      setIsLoaded(true);
+      await axios
+        .get("/api/devices/lamp")
+        .then((response) => {
+          setIsLoaded(true);
+          setState(response.data.state);
+        })
+        .catch((error) => {
+          setIsLoaded(true);
+          setError(error);
+        });
     };
 
     fetchData();
