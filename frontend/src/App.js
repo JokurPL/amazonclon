@@ -23,6 +23,7 @@ import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
+import MqttScreen from "./screens/MqttScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,6 +72,9 @@ function App() {
                   <li>
                     <Link to="/orderhistory">Order history</Link>
                   </li>
+                  <li>
+                    <Link to="/devices/lampka">Lamp</Link>
+                  </li>
                 </ul>
               </div>
             ) : (
@@ -102,6 +106,8 @@ function App() {
         </header>
 
         <main>
+          <Route path="/devices/lampka" component={MqttScreen} />
+
           <Route path="/signin" component={SignInScreen} />
           <Route path="/register" component={RegisterScreen} />
 
