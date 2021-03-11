@@ -14,8 +14,12 @@ function ProfileScreen() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [successUpdate, setSuccessUpdate] = useState(false)
-  const [errorUpdate, setErrorUpdate] = useState(false)
+  const [sellerName, setSellerName] = useState("");
+  const [sellerLogo, setSellerLogo] = useState("");
+  const [sellerDescription, setSellerDescription] = useState("");
+
+  const [successUpdate, setSuccessUpdate] = useState(false);
+  const [errorUpdate, setErrorUpdate] = useState(false);
 
   const userSignIn = useSelector((state) => state.userSignIn);
   const { userInfo } = userSignIn;
@@ -48,6 +52,11 @@ function ProfileScreen() {
       if (user.name !== userInfo.name) {
         dispatch(detailsUser(userInfo._id));
       }
+      if (user.seller) {
+        setSellerName(user.seller.name);
+        setSellerLogo(user.seller.logo);
+        setSellerDescription(user.seller.description);
+      }
       setName(user.name);
       setEmail(user.email);
     }
@@ -61,15 +70,18 @@ function ProfileScreen() {
     if (errorUpdateProfile) {
       setErrorUpdate(true);
     }
-  }, [successUpdateProfile, dispatch, errorUpdateProfile])
+  }, [successUpdateProfile, dispatch, errorUpdateProfile]);
 
   useEffect(() => {
-    let hideSuccessNotification = setTimeout(() => setSuccessUpdate(false), 3000);
+    let hideSuccessNotification = setTimeout(
+      () => setSuccessUpdate(false),
+      3000
+    );
 
     return () => {
       clearTimeout(hideSuccessNotification);
     };
-  }, [successUpdate])
+  }, [successUpdate]);
 
   useEffect(() => {
     let hideErrorNotification = setTimeout(() => setErrorUpdate(false), 3000);
@@ -77,13 +89,23 @@ function ProfileScreen() {
     return () => {
       clearTimeout(hideErrorNotification);
     };
-  }, [errorUpdate])
+  }, [errorUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      dispatch(updateUserProfile({ userId: user._id, name, email, password }));
+      dispatch(
+        updateUserProfile({
+          userId: user._id,
+          name,
+          email,
+          password,
+          sellerName,
+          sellerLogo,
+          sellerDescription,
+        })
+      );
     }
   };
 
@@ -159,6 +181,42 @@ function ProfileScreen() {
                 </p>
               )}
             </div>
+            {user.isSeller && (
+              <>
+                <h1 style={{ marginTop: "2rem" }}>
+                  Seller <hr />
+                </h1>
+                <div>
+                  <label htmlFor="sellerName">Seller name</label>
+                  <input
+                    type="text"
+                    id="sellerName"
+                    placeholder="Enter seller name"
+                    value={sellerName}
+                    onChange={(e) => setSellerName(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="sellerLogo">Seller logo</label>
+                  <input
+                    type="text"
+                    id="sellerLogo"
+                    placeholder="Enter seller name"
+                    value={sellerLogo}
+                    onChange={(e) => setSellerLogo(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="sellerDescription">Seller description</label>
+                  <textarea
+                    id="sellerDescription"
+                    placeholder="Enter seller description"
+                    value={sellerDescription}
+                    onChange={(e) => setSellerDescription(e.target.value)}
+                  />
+                </div>
+              </>
+            )}
             <div>
               <label />
               <button className="primary" type="submit">

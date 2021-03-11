@@ -24,6 +24,7 @@ import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import MqttScreen from "./screens/MqttScreen";
+import SellerRoute from "./components/SellerRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -80,6 +81,22 @@ function App() {
             ) : (
               <Link to={`/signin`}>Sign In</Link>
             )}
+            {userInfo && userInfo.isSeller && (
+              <div className="dropdown">
+                <Link to="#seller">
+                  Seller{" "}
+                  <BsCaretDown style={{ transform: "translate(0, .4rem)" }} />
+                </Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/productslist/seller">Products</Link>
+                  </li>
+                  <li>
+                    <Link to="/orderslist/seller">Orders</Link>
+                  </li>
+                </ul>
+              </div>
+            )}
             {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
                 <Link to="#admin">
@@ -114,20 +131,26 @@ function App() {
           <Route path="/cart/:id?" component={CartScreen} />
 
           <Route path="/product/:id" component={ProductScreen} exact />
-          <AdminRoute path="/productslist" component={ProductListScreen} />
           <AdminRoute
-            path="/product/:id/edit"
-            component={ProductEditScreen}
+            path="/productslist"
+            component={ProductListScreen}
             exact
           />
+          <AdminRoute path="/product/:id/edit" component={ProductEditScreen} />
+          <SellerRoute
+            path="/productslist/seller"
+            component={ProductListScreen}
+          />
+
           <Route path="/shipping" component={ShippingAddressScreen} />
 
           <Route path="/payment" component={PaymentMethodScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
 
           <Route path="/order/:id" component={OrderScreen} />
-          <Route path="/orderhistory" component={OrderHistoryScreen} />
-          <AdminRoute path="/orderslist" component={OrderListScreen} />
+          <Route path="/orderhistory" component={OrderHistoryScreen} exact />
+          <AdminRoute path="/orderslist" component={OrderListScreen} exact />
+          <SellerRoute path="/orderslist/seller" component={OrderListScreen} />
 
           <PrivateRoute path="/profile" component={ProfileScreen} />
           <AdminRoute path="/userslist" component={UserListScreen} />
