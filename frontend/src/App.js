@@ -25,6 +25,7 @@ import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import MqttScreen from "./screens/MqttScreen";
 import SellerRoute from "./components/SellerRoute";
+import SellerScreen from "./screens/SellerScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -124,6 +125,8 @@ function App() {
 
         <main>
           <Route path="/devices/lampka" component={MqttScreen} />
+
+          <Route path="/seller/:id" component={SellerScreen} />
 
           <Route path="/signin" component={SignInScreen} />
           <Route path="/register" component={RegisterScreen} />

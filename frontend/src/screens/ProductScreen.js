@@ -31,11 +31,7 @@ const ProductScreen = (props) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const productDelete = useSelector((state) => state.productDelete);
-  const {
-    loading: loadingDelete,
-    success: successDelete,
-    error: errorDelete,
-  } = productDelete;
+  const { success: successDelete } = productDelete;
 
   useEffect(() => {
     if (userInfo) {
@@ -75,6 +71,9 @@ const ProductScreen = (props) => {
   }, [successAdd]);
 
   const buyNowHandler = () => {
+    if (qty === 0) {
+      setQty(1);
+    }
     props.history.push(`/cart/${productId}?qty=${qty}`);
   };
 
@@ -107,7 +106,7 @@ const ProductScreen = (props) => {
                     Edit
                   </div>
                 </Link>
-                <Link onClick={deleteHandler}>
+                <Link to="#delete" onClick={deleteHandler}>
                   <div className="back" style={{ marginLeft: ".3rem" }}>
                     <AiOutlineDelete
                       style={{ transform: "translate(0, .2rem)" }}
@@ -144,74 +143,94 @@ const ProductScreen = (props) => {
             </div>
             <div className="col-1">
               <div className="card card-body">
-                <li>
-                  <div className="row">
-                    <div>
-                      <b>Price:</b>
-                    </div>
-                    <div className="price">${product.price}</div>
-                  </div>
-                </li>
-                <li>
-                  <div className="row">
-                    <div>
-                      <b>Status:</b>
-                    </div>
-                    <div>
-                      {product.countInStock > 0 ? (
-                        <span className="success">In stock</span>
-                      ) : (
-                        <span className="danger">Out of stock</span>
-                      )}
-                    </div>
-                  </div>
-                </li>
-                {product.countInStock > 0 && (
-                  <>
-                    <li>
-                      <div className="row">
-                        <div>
-                          <b>Quantity:</b>
-                        </div>
-                        <div>
-                          <select
-                            name={qty}
-                            onChange={(e) => setQty(e.target.value)}
-                          >
-                            {qty}
-                            {[...Array(product.countInStock).keys()].map(
-                              (x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              )
-                            )}
-                          </select>
-                        </div>
+                <ul>
+                  <li>
+                    <b>Seller:</b>{" "}
+                    <h2>
+                      <Link to={`/seller/${product.seller._id}`}>
+                        {product.seller.seller.name}
+                      </Link>
+                    </h2>
+                    <Rating
+                      rating={product.seller.seller.rating}
+                      numReviews={product.seller.seller.numReviews}
+                    />
+                  </li>
+                  <li>
+                    <div className="row">
+                      <div>
+                        <b>Price:</b>
                       </div>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => setToCart(true)}
-                        className="primary block"
-                      >
-                        Add to cart
-                      </button>
-                    </li>
-                    <li>
-                      <button onClick={buyNowHandler} className="primary block">
-                        Buy now
-                      </button>
-                    </li>
-                    {successAdd && (
+                      <div className="price">${product.price}</div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="row">
+                      <div>
+                        <b>Status:</b>
+                      </div>
+                      <div>
+                        {product.countInStock > 0 ? (
+                          <span className="success">In stock</span>
+                        ) : (
+                          <span className="danger">Out of stock</span>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                  {product.countInStock > 0 && (
+                    <>
                       <li>
-                        <MessageBox variant="success">
-                          A product has been added to the cart
-                        </MessageBox>
+                        <div className="row">
+                          <div>
+                            <b>Quantity:</b>
+                          </div>
+                          <div>
+                            <input
+                              min="1"
+                              max={product.countInStock}
+                              type="number"
+                              name="qty"
+                              value={qty}
+                              onChange={(e) => {
+                                if (
+                                  e.target.value > 0 &&
+                                  e.target.value <= product.countInStock
+                                ) {
+                                  setQty(e.target.value);
+                                }
+                              }}
+                            />{" "}
+                            / {product.countInStock}
+                          </div>
+                        </div>
                       </li>
-                    )}
-                  </>
-                )}
+                      <li>
+                        <button
+                          onClick={() => setToCart(true)}
+                          className="primary block"
+                        >
+                          Add to cart
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={buyNowHandler}
+                          className="primary block"
+                        >
+                          Buy now
+                        </button>
+                      </li>
+                      {successAdd && (
+                        <li>
+                          <MessageBox variant="success">
+                            A product has been added to the cart
+                          </MessageBox>
+                        </li>
+                      )}
+                    </>
+                  )}
+                </ul>
               </div>
             </div>
           </div>

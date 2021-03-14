@@ -4,7 +4,7 @@ const Rating = (props) => {
   const { rating, numReviews } = props;
 
   return (
-    <div>
+    <div className="rating">
       <span>
         {rating >= 1 ? (
           <BsStarFill />
